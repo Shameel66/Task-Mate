@@ -10,6 +10,9 @@ class TaskController extends GetxController {
   final _taskDoneList = Rx<List<TaskModel>?>([]);
   List<TaskModel>? get taskDoneList => _taskDoneList.value;
 
+  final _searchedTaskList = Rx<List<TaskModel>?>([]);
+  List<TaskModel>? get searchedTaskList => _searchedTaskList.value;
+
   Stream<List<TaskModel>?> allTaskStream() {
     return FirebaseFirestore.instance
         .collection('task')
@@ -40,5 +43,17 @@ class TaskController extends GetxController {
     _taskList.bindStream(allTaskStream());
     _taskDoneList.bindStream(allDoneTaskStream());
     super.onInit();
+  }
+
+  void searchTasks(String query) {
+    if (query.isEmpty) {
+      _searchedTaskList.value =
+          []; // Clear the search results if query is empty
+    } else {
+      _searchedTaskList.value = taskList
+          ?.where((task) =>
+              task.taskName.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
   }
 }

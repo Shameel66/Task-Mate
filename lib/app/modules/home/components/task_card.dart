@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:msh_checkbox/msh_checkbox.dart';
+import 'package:task_mate/app/controllers/task_controller.dart';
 import 'package:task_mate/app/data/constants/constants.dart';
 import 'package:task_mate/app/data/enums/task_priority.dart';
 import 'package:task_mate/app/data/helpers/date_utils.dart';
@@ -21,9 +22,10 @@ class _TaskCardState extends State<TaskCard> {
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
+    print(widget.task.isDone);
     return GestureDetector(
       onTap: () {
-        Get.to(() => CreateTaskPage(task: widget.task,isEdit: true));
+        Get.to(() => CreateTaskPage(task: widget.task, isEdit: true));
       },
       child: IntrinsicHeight(
         child: Row(
@@ -45,7 +47,7 @@ class _TaskCardState extends State<TaskCard> {
                 decoration: BoxDecoration(
                     borderRadius:
                         BorderRadius.horizontal(right: Radius.circular(9.r)),
-                    color:  Colors.grey.withOpacity(0.1)),
+                    color: Colors.grey.withOpacity(0.1)),
                 child: Row(
                   children: [
                     Expanded(
@@ -92,7 +94,9 @@ class _TaskCardState extends State<TaskCard> {
                         setState(() {
                           isChecked = selected;
                         });
+
                         TaskRepo().updateTaskIsDone(widget.task, isChecked);
+                        Get.find<TaskController>().update();
                       },
                     )
                   ],

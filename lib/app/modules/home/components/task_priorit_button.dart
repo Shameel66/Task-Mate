@@ -19,6 +19,7 @@ class _PriorityButtonsState extends State<PriorityButtons>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Color?> _colorTween;
+  TaskPriority? priority;
 
   @override
   void initState() {
@@ -27,18 +28,31 @@ class _PriorityButtonsState extends State<PriorityButtons>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
+
     _colorTween = _controller.drive(
       ColorTween(
         begin: null,
         end: AppColors.kHighColor,
       ),
     );
+
     priority = widget.initialPriority;
-    priority ??= TaskPriority.high;
+
+    if (priority == null) {
+      priority = TaskPriority.medium;
+      _animateColor(AppColors.kMediumColor);
+    } else {
+      _animateColor(
+        priority == TaskPriority.high
+            ? AppColors.kHighColor
+            : priority == TaskPriority.medium
+                ? AppColors.kMediumColor
+                : AppColors.kLowColor,
+      );
+    }
+
     _controller.forward();
   }
-
-  TaskPriority? priority;
 
   @override
   void didUpdateWidget(covariant PriorityButtons oldWidget) {

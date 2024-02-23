@@ -21,6 +21,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
   void initState() {
     super.initState();
     focusDate = widget.focusDate ?? DateTime.now();
+    print(focusDate);
   }
 
   @override

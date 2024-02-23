@@ -15,7 +15,6 @@ class ErrorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: AppColors.kBlack,
       contentPadding: EdgeInsets.all(12.h),
       content: Column(
         mainAxisSize: MainAxisSize.min,

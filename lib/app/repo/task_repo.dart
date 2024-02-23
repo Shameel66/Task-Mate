@@ -26,16 +26,8 @@ class TaskRepo {
   Future<void> updateTaskIsDone(TaskModel task, bool isDone) async {
     try {
       showLoading();
-      var currentUserUid = Get.find<AuthController>().user!.uid;
 
-      if (task.ownerId == currentUserUid) {
-        await db.taskCollection.doc(task.id).update({'isDone': isDone});
-      } else {
-        hideLoading();
-        showErrorDialog(
-            'You do not have permission to update this task.', null);
-        return;
-      }
+      await db.taskCollection.doc(task.id).update({'isDone': isDone});
 
       hideLoading();
     } catch (e) {
@@ -45,41 +37,22 @@ class TaskRepo {
   }
 
   Future<void> updateTask(TaskModel task) async {
-  try {
-    showLoading();
-    var currentUserUid = Get.find<AuthController>().user!.uid;
-
-    if (task.ownerId == currentUserUid) {
+    try {
+      showLoading();
       await db.taskCollection.doc(task.id).update(task.toMap());
-    } else {
-      hideLoading();
-      showErrorDialog(
-          'You do not have permission to update this task.', null);
-      return;
-    }
 
-    hideLoading();
-    Get.back(); // This will navigate back to the previous screen
-  } catch (e) {
-    hideLoading();
-    showErrorDialog(e.toString(), null);
+      hideLoading();
+      Get.back(); // This will navigate back to the previous screen
+    } catch (e) {
+      hideLoading();
+      showErrorDialog(e.toString(), null);
+    }
   }
-}
 
   Future<void> deleteTask(TaskModel task) async {
     try {
       showLoading();
-      var currentUserUid = Get.find<AuthController>().user!.uid;
-
-      if (task.ownerId == currentUserUid) {
-        await db.taskCollection.doc(task.id).delete();
-      } else {
-        hideLoading();
-        showErrorDialog(
-            'You do not have permission to delete this task.', null);
-        return;
-      }
-
+      await db.taskCollection.doc(task.id).delete();
       hideLoading();
       Get.back();
     } catch (e) {

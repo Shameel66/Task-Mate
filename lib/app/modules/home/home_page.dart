@@ -23,26 +23,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<TaskModel> filterTasks = [];
   final TextEditingController _searchController = TextEditingController();
   TaskController tc = Get.find<TaskController>();
-
-  @override
-  void initState() {
-    _searchController.addListener(() {
-      setState(() {
-        final searchText = _searchController.text.toLowerCase();
-        setState(() {
-          filterTasks = tc.taskList
-                  ?.where((task) =>
-                      task.taskName.toLowerCase().contains(searchText))
-                  .toList() ??
-              [];
-        });
-      });
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,13 +55,12 @@ class _HomePageState extends State<HomePage> {
             // Search Field
             SearchField(
               controller: _searchController,
+              onChanged: (value)=>tc.searchTasks(value),
             ),
             SizedBox(height: 20.h),
             // Daily Progress
 
             Obx(() {
-              final tc = Get.find<TaskController>();
-
               if (tc.taskList == null || tc.taskList!.isEmpty) {
                 return const SizedBox();
               }
@@ -97,18 +78,19 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 30.h),
 
             Obx(() {
-              List<TaskModel> taskList =
-                  filterTasks.isNotEmpty ? filterTasks : tc.taskList ?? [];
+              List<TaskModel> taskList = _searchController.text.isNotEmpty
+                  ? tc.searchedTaskList ?? []
+                  : tc.taskList ?? [];
 
               if (taskList.isEmpty) {
                 return Center(
-                    child: Lottie.asset('assets/lottie/empty.json',
-                        repeat: false));
+                  child:
+                      Lottie.asset('assets/lottie/empty.json', repeat: false),
+                );
               }
 
               Map<String, List<TaskModel>> groupedTasks =
                   groupTasksByDate(taskList);
-
               return MediaQuery.removePadding(
                 context: context,
                 removeTop: true,

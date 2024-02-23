@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:task_mate/app/controllers/task_controller.dart';
 import 'package:task_mate/app/data/constants/constants.dart';
 import 'package:task_mate/app/data/enums/task_priority.dart';
 import 'package:task_mate/app/model/task_model.dart';
@@ -39,6 +41,7 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
       startDate = widget.task!.startTime;
       endDate = widget.task!.endTime;
       selectedPriority = widget.task!.priority;
+      print(taskDate);
     }
   }
 
@@ -58,7 +61,7 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomCalendar(
-                focusDate: startDate,
+                focusDate: taskDate,
                 onDateChange: (date) {
                   setState(() {
                     taskDate = date;
@@ -141,7 +144,7 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
                                   endTime: endDate,
                                   priority: selectedPriority,
                                   isDone: false));
-                              print(endDate);
+                              Get.find<TaskController>().update();
                             },
                             text: 'Edit')),
                   ],
