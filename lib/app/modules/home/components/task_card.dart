@@ -21,8 +21,6 @@ class _TaskCardState extends State<TaskCard> {
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode(BuildContext context) =>
-        Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: () {
         Get.to(() => CreateTaskPage(task: widget.task,isEdit: true));
@@ -47,9 +45,7 @@ class _TaskCardState extends State<TaskCard> {
                 decoration: BoxDecoration(
                     borderRadius:
                         BorderRadius.horizontal(right: Radius.circular(9.r)),
-                    color: isDarkMode(context)
-                        ? AppColors.kBlack
-                        : Colors.grey.withOpacity(0.1)),
+                    color:  Colors.grey.withOpacity(0.1)),
                 child: Row(
                   children: [
                     Expanded(

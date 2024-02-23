@@ -26,7 +26,7 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
   DateTime taskDate = DateTime.now();
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
-  TaskPriority priority = TaskPriority.high;
+  TaskPriority selectedPriority = TaskPriority.medium;
   final TaskRepo _taskRepo = TaskRepo();
 
   @override
@@ -38,7 +38,7 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
       taskDate = widget.task!.selectedDate;
       startDate = widget.task!.startTime;
       endDate = widget.task!.endTime;
-      priority = widget.task!.priority;
+      selectedPriority = widget.task!.priority;
     }
   }
 
@@ -104,11 +104,12 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
               Text('Priority', style: AppTypography.kRegular16),
               SizedBox(height: 10.h),
               PriorityButtons(
-                initialPriority: priority,
+                initialPriority: selectedPriority,
                 onSelect: (priority) {
                   setState(() {
-                    priority = priority;
+                    selectedPriority = priority!;
                   });
+                  print(priority);
                 },
               ),
               SizedBox(height: 50.h),
@@ -138,7 +139,7 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
                                   taskDescription: descriptionController.text,
                                   startTime: startDate,
                                   endTime: endDate,
-                                  priority: priority,
+                                  priority: selectedPriority,
                                   isDone: false));
                               print(endDate);
                             },
@@ -157,11 +158,12 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
                             taskDescription: descriptionController.text,
                             startTime: startDate,
                             endTime: endDate,
-                            priority: priority,
+                            priority: selectedPriority,
                             isDone: false));
                       }
                     },
-                    text: 'Create Task')
+                    text: 'Create Task'),
+                SizedBox(height: 20.h),
               ]
             ],
           ),

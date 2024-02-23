@@ -9,16 +9,12 @@ class DailyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode(BuildContext context) =>
-        Theme.of(context).brightness == Brightness.dark;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(12.h),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.r),
-          color: isDarkMode(context)
-              ? AppColors.kBlack
-              : Colors.grey.withOpacity(0.1)),
+          color: Colors.grey.withOpacity(0.1)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

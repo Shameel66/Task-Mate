@@ -34,7 +34,7 @@ class TaskModel {
       'taskDescription': taskDescription,
       'startTime': startTime.toIso8601String(),
       'endTime': endTime.toIso8601String(),
-      'priority': priority.toString(),
+      'priority': priority.name,
       'isDone': isDone,
     };
   }
@@ -48,7 +48,7 @@ class TaskModel {
       taskDescription: map['taskDescription'] ?? '',
       startTime: DateTime.parse(map['startTime'] ?? ''),
       endTime: DateTime.parse(map['endTime'] ?? ''),
-      priority: TaskPriorityExtension.fromString(map['priority'] ?? ''),
+      priority: TaskPriority.values.byName(map['priority']),
       isDone: map['isDone'] ?? false,
     );
   }
@@ -59,21 +59,3 @@ class TaskModel {
      TaskModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
-extension TaskPriorityExtension on TaskPriority {
-  static TaskPriority fromString(String priorityString) {
-    switch (priorityString) {
-      case 'high':
-        return TaskPriority.high;
-      case 'medium':
-        return TaskPriority.medium;
-      case 'low':
-        return TaskPriority.low;
-      default:
-        return TaskPriority.medium;
-    }
-  }
-
-  String toStringValue() {
-    return toString().split('.').last;
-  }
-}
