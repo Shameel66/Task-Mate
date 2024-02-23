@@ -26,6 +26,7 @@ class TaskController extends GetxController {
     return FirebaseFirestore.instance
         .collection('task')
         .where('ownerId', isEqualTo: Get.find<AuthController>().user!.uid)
+        .where('selectedDate', isEqualTo: DateTime.now())
         .where('isDone', isEqualTo: true)
         .snapshots()
         .map((querySnapshot) {

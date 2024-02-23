@@ -22,11 +22,11 @@ class DailyCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Daily Task', style: AppTypography.kSemiBold18),
+          Text('All Task', style: AppTypography.kSemiBold18),
           SizedBox(height: 5.h),
           Text('$doneTask/$totalTask Task Completed',
               style: AppTypography.kRegular16.copyWith(color: Colors.grey)),
-          SizedBox(height: 5.h),
+         
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
