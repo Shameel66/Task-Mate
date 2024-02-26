@@ -64,7 +64,6 @@ class _TaskCardState extends State<TaskCard> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(height: 5.h),
                           Row(
                             children: [
                               const Icon(Icons.calendar_month, size: 15),
@@ -78,6 +77,11 @@ class _TaskCardState extends State<TaskCard> {
                                 ),
                               ),
                             ],
+                          ),
+                          Text(
+                            'Start Time: ${DateUtilsClass.formatTime(widget.task.startTime)} - End Time: ${DateUtilsClass.formatTime(widget.task.endTime)}',
+                            style:
+                                AppTypography.kLight14.copyWith(fontSize: 10),
                           )
                         ],
                       ),
