@@ -1,4 +1,6 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +11,7 @@ import 'package:task_mate/app/data/constants/app_theme.dart';
 import 'package:task_mate/app/modules/auth/auth_wrapper.dart';
 import 'package:task_mate/firebase_options.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(defaultOverlay);
@@ -17,7 +20,13 @@ void main() async {
   );
   await GetStorage.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const Main());
+   runApp(
+    DevicePreview(
+      enabled: kIsWeb, 
+      isToolbarVisible: false,
+      builder: (context) => const Main(),
+    ),
+  );
 }
 
 class Main extends StatelessWidget {

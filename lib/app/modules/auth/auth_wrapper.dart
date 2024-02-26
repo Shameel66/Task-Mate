@@ -17,7 +17,7 @@ class AuthWrapperPage extends GetWidget<AuthController> {
         return const OnboardingPage();
       }
 
-      UserController uc = Get.put(UserController());
+      UserController uc = Get.put(UserController(), permanent: true);
 
       var myUser = uc.currentUser.value;
 

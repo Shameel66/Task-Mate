@@ -33,7 +33,6 @@ class UserController extends GetxController {
   @override
   void onReady() {
     Get.put(TaskController(), permanent: true);
-
     super.onReady();
   }
 

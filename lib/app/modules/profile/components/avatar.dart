@@ -14,40 +14,42 @@ class ProfileImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<UserController>(builder: (controller) {
+    return GetBuilder<UserController>(
+      builder: (controller) {
       if (imagePicked != null) {
         return CircleAvatar(
           radius: 50.r,
           backgroundImage: FileImage(imagePicked!),
         );
-      }
-      if(controller.user?.profilePic==''){
+      } else if (controller.user?.profilePic.isEmpty ?? true) {
         return CircleAvatar(
-          radius: radius??50.r,
+          radius: radius ?? 50.r,
           backgroundImage: AssetImage(AppAssets.kPlaceholderProfile),
         );
+      } else {
+        return CachedNetworkImage(
+          imageUrl: controller
+              .user!.profilePic, // Assume ! is safe here based on your logic
+          imageBuilder: (context, imageProvider) {
+            return CircleAvatar(
+              radius: radius ?? 50.r,
+              backgroundImage: imageProvider,
+            );
+          },
+          placeholder: (context, url) {
+            return CircleAvatar(
+              radius: radius ?? 50.r,
+              backgroundImage: AssetImage(AppAssets.kPlaceholderProfile),
+            );
+          },
+          errorWidget: (context, url, error) {
+            return CircleAvatar(
+              radius: radius ?? 50.r,
+              backgroundImage: AssetImage(AppAssets.kPlaceholderProfile),
+            );
+          },
+        );
       }
-      return CachedNetworkImage(
-        imageUrl: controller.user?.profilePic??'',
-        imageBuilder: (context, imageProvider) {
-          return CircleAvatar(
-            radius: radius ?? 50.r,
-            backgroundImage: imageProvider,
-          );
-        },
-        placeholder: (context, url) {
-          return CircleAvatar(
-            radius: radius ?? 50.r,
-             backgroundImage: AssetImage(AppAssets.kPlaceholderProfile),
-          );
-        },
-        errorWidget: (context, url, error) {
-          return CircleAvatar(
-            radius: radius ?? 50.r,
-            backgroundImage: AssetImage(AppAssets.kPlaceholderProfile),
-          );
-        },
-      );
     });
   }
 }

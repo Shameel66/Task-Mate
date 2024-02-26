@@ -81,7 +81,7 @@ class _SignInPageState extends State<SignInPage> {
                     await _authService.signInWithEmailAndPassword(
                         email: emailTextFieldController.text,
                         password: passwordTextFieldController.text);
-                    Get.back();
+                    
                   }
                 },
               ),

@@ -23,22 +23,19 @@ class AuthService {
     try {
       showLoading();
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      _handleAuthStateLoader();
+      // _handleAuthStateLoader();
       hideLoading();
+      Get.close(1);
     } on TimeoutException {
       showLoading();
-
       showErrorDialog("Request Timed out", null);
     } on FirebaseAuthException catch (err) {
       hideLoading();
-
-      showErrorDialog(AuthExceptionHandler.getError(err.code.toString()), null);
+     showErrorDialog(AuthExceptionHandler.getError(err.code.toString()), null);
     }
   }
 
-  void _handleAuthStateLoader() {
-    Get.put(UserController(), permanent: true);
-  }
+
 
   Future<void> signUpWithEmailAndPassword({
     required String name,
@@ -52,8 +49,7 @@ class AuthService {
       final user = UserModel(
           id: cred.user!.uid, name: name, email: emailAddress, profilePic: '');
       await db.userCollection.doc(cred.user!.uid).set(user);
-
-      _handleAuthStateLoader();
+      // _handleAuthStateLoader();
       Get.back();
       hideLoading();
     } on FirebaseAuthException catch (e) {
